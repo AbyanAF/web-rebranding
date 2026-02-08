@@ -77,8 +77,13 @@ export default function TambahBeritaPage() {
           <li>Gunakan tag <code>&lt;p&gt;</code> untuk paragraf</li>
           <li>Gunakan <code>&lt;strong&gt;</code> untuk penekanan</li>
           <li>Judul sebaiknya singkat & jelas</li>
+          <li>Slug harus unik dan tidak mengandung spasi</li>
+          <li>Slug adalah teks singkat di URL yang mewakili judul halaman agar mudah dibaca dan dibagikan.</li>
           <li>Isi berita minimal 2 paragraf</li>
           <li>Disarankan gambar dengan dimensi 1000x750</li>
+          <li>Ukuran Gambar Maksimal 10MB</li>
+          <li>Format Gambar: .jpg, .jpeg, .png</li>
+          <li>Semakin besar gambar akan semakin lama waktu untuk muncul dihalaman detail berita</li>
         </ul>
       </aside>
 

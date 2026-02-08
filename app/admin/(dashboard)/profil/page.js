@@ -24,7 +24,16 @@ export default function AdminProfilePage() {
 
         <h2 className="username">{admin.username}</h2>
         <p className="role">Administrator</p>
+        <a href="/admin/profile" className="text-blue-600 hover:underline">
+                Ubah Password Saya
+        </a>
+        <br></br>
+        <a href="/admin/admins" className="text-blue-600 hover:underline">
+                Kelola Admin Lain
+        </a>
       </div>
     </div>
+    
   );
 }
+
