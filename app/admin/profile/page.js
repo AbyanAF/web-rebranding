@@ -4,23 +4,56 @@
 import ChangePasswordForm from '@/components/admin/ChangePasswordForm';
 
 export default function AdminProfile() {
-  // nanti ganti dengan username dari session/auth (sementara hardcode)
-  const username = "admin_saat_ini"; // ← ganti dengan logic auth nanti
+  // Nanti ganti dengan data dari auth/session (misal dari cookies atau context)
+  const username = "admin_saat_ini"; // ← placeholder, nanti ambil dari getCurrentAdmin() atau similar
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Profile Admin</h1>
-      
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-2xl font-semibold mb-4">Informasi Akun</h2>
-        <p className="mb-6 text-lg">
-          Username: <strong>{username}</strong>
-        </p>
+    <div className="container">
+      <h1 style={{ fontSize: '2.2rem', marginBottom: '10px' }}>Profile Admin</h1>
+      <p style={{ color: '#6b7280', marginBottom: '40px' }}>
+        Kelola informasi akun dan keamanan password Anda.
+      </p>
 
-        <hr className="my-6" />
+      <div className="card">
+        <div className="card-header">
+          <h2>Informasi Akun</h2>
+          <p>Detail login dan status akun Anda saat ini.</p>
+        </div>
+        <div className="card-body">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+            <div style={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: '#2563eb',
+              color: 'white',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem',
+              fontWeight: 'bold'
+            }}>
+              {username.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <p style={{ fontSize: '1.1rem', margin: '0' }}>
+                <strong>Username:</strong> {username}
+              </p>
+              <p style={{ color: '#6b7280', marginTop: '4px', fontSize: '0.95rem' }}>
+                Terakhir login: {/* Nanti isi dari auth timestamp kalau ada */}
+              </p>
+            </div>
+          </div>
 
-        <h2 className="text-2xl font-semibold mb-4">Ubah Password</h2>
-        <ChangePasswordForm username={username} />
+          <hr style={{ border: 'none', borderTop: '1px solid #e5e7eb', margin: '24px 0' }} />
+
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '16px' }}>Ubah Password</h2>
+          <p style={{ color: '#6b7280', marginBottom: '24px' }}>
+            Untuk keamanan, gunakan password yang kuat dan berbeda dari sebelumnya.
+          </p>
+
+          <ChangePasswordForm username={username} />
+        </div>
       </div>
     </div>
   );

@@ -1,26 +1,33 @@
 // app/admin/admins/page.js
 'use client';
 
-import { useState } from 'react';
 import AddAdminForm from '@/components/admin/AddAdminForm';
 
 export default function ManageAdmins() {
-  // kalau nanti ada API list admin, fetch di sini
-  // sementara tampilkan form tambah saja
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Kelola Admin</h1>
-      
-      <div className="bg-white p-6 rounded shadow max-w-xl">
-        <h2 className="text-2xl font-semibold mb-4">Tambah Admin Baru</h2>
-        <AddAdminForm />
+    <div className="container">
+      <h1 style={{ fontSize: '2.2rem', marginBottom: '10px' }}>Kelola Admin</h1>
+      <p style={{ color: '#6b7280', marginBottom: '40px' }}>
+        Tambah atau kelola akun admin untuk akses dashboard.
+      </p>
+
+      <div className="card">
+        <div className="card-header">
+          <h2>Tambah Admin Baru</h2>
+          <p>Buat akun admin dengan username dan password yang kuat (minimal 8 karakter).</p>
+        </div>
+        <div className="card-body">
+          <AddAdminForm />
+        </div>
       </div>
 
-      {/* kalau sudah ada list, tambah di sini nanti */}
-      <div className="mt-10">
-        <h2 className="text-2xl font-semibold mb-4">Daftar Admin</h2>
-        <p className="text-gray-500">Fitur list admin akan ditambahkan setelah login & API list selesai.</p>
+      <h2 style={{ fontSize: '1.8rem', marginBottom: '20px' }}>Daftar Admin</h2>
+      <div className="card">
+        <div className="empty-state">
+          <div className="empty-icon">👥</div> {/* atau pakai SVG kalau mau */}
+          <h3>Belum ada admin tambahan</h3>
+          <p>Tambahkan admin baru di atas untuk mendukung tim pengelola sekolah.</p>
+        </div>
       </div>
     </div>
   );

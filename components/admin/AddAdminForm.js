@@ -6,12 +6,23 @@ import { useState } from 'react';
 export default function AddAdminForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+
+    if (password !== confirmPassword) {
+      setMessage('Password dan konfirmasi tidak cocok');
+      return;
+    }
+    if (password.length < 8) {
+      setMessage('Password minimal 8 karakter');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -27,37 +38,56 @@ export default function AddAdminForm() {
         setMessage('Admin berhasil ditambahkan!');
         setUsername('');
         setPassword('');
+        setConfirmPassword('');
       } else {
         setMessage(data.error || 'Gagal menambah admin');
       }
     } catch (err) {
-      setMessage('Terjadi kesalahan');
+      setMessage('Terjadi kesalahan koneksi');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div>
-        <label className="block mb-1 font-medium">Username</label>
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="username">Username</label>
         <input
+          id="username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value.trim())}
-          className="w-full border rounded px-3 py-2"
+          className="form-input"
+          placeholder="masukkan username baru"
           required
           disabled={loading}
         />
       </div>
 
-      <div>
-        <label className="block mb-1 font-medium">Password</label>
+      <div className="form-group">
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="form-input"
+          placeholder="minimal 8 karakter"
+          required
+          disabled={loading}
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="confirm-password">Konfirmasi Password</label>
+        <input
+          id="confirm-password"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="form-input"
+          placeholder="ulangi password"
           required
           disabled={loading}
         />
@@ -65,16 +95,16 @@ export default function AddAdminForm() {
 
       <button
         type="submit"
+        className={`btn btn-primary ${loading ? 'disabled' : ''}`}
         disabled={loading}
-        className="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800 disabled:opacity-50"
       >
         {loading ? 'Memproses...' : 'Tambah Admin'}
       </button>
 
       {message && (
-        <p className={`mt-3 ${message.includes('berhasil') ? 'text-green-600' : 'text-red-600'}`}>
+        <div className={`message ${message.includes('berhasil') || message.includes('ditambahkan') ? 'message-success' : 'message-error'}`}>
           {message}
-        </p>
+        </div>
       )}
     </form>
   );

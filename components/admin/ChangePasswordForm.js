@@ -13,13 +13,22 @@ export default function ChangePasswordForm({ username }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
-    setLoading(true);
 
+    // Validasi tambahan di client-side
     if (newPassword !== confirmPassword) {
-      setMessage('Konfirmasi password tidak sama');
-      setLoading(false);
+      setMessage('Konfirmasi password baru tidak sama');
       return;
     }
+    if (newPassword.length < 8) {
+      setMessage('Password baru minimal 8 karakter');
+      return;
+    }
+    if (newPassword === currentPassword) {
+      setMessage('Password baru tidak boleh sama dengan password saat ini');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch('/api/admin/change-password', {
@@ -46,38 +55,44 @@ export default function ChangePasswordForm({ username }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div>
-        <label className="block mb-1 font-medium">Password Saat Ini</label>
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="current-password">Password Saat Ini</label>
         <input
+          id="current-password"
           type="password"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="form-input"
+          placeholder="Masukkan password lama Anda"
           required
           disabled={loading}
         />
       </div>
 
-      <div>
-        <label className="block mb-1 font-medium">Password Baru</label>
+      <div className="form-group">
+        <label htmlFor="new-password">Password Baru</label>
         <input
+          id="new-password"
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="form-input"
+          placeholder="Minimal 8 karakter"
           required
           disabled={loading}
         />
       </div>
 
-      <div>
-        <label className="block mb-1 font-medium">Konfirmasi Password Baru</label>
+      <div className="form-group">
+        <label htmlFor="confirm-password">Konfirmasi Password Baru</label>
         <input
+          id="confirm-password"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="form-input"
+          placeholder="Ulangi password baru"
           required
           disabled={loading}
         />
@@ -85,16 +100,20 @@ export default function ChangePasswordForm({ username }) {
 
       <button
         type="submit"
+        className={`btn btn-primary ${loading ? 'disabled' : ''}`}
         disabled={loading}
-        className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800 disabled:opacity-50"
       >
         {loading ? 'Memproses...' : 'Simpan Perubahan'}
       </button>
 
       {message && (
-        <p className={`mt-3 ${message.includes('berhasil') ? 'text-green-600' : 'text-red-600'}`}>
+        <div
+          className={`message ${
+            message.includes('berhasil') ? 'message-success' : 'message-error'
+          }`}
+        >
           {message}
-        </p>
+        </div>
       )}
     </form>
   );
