@@ -1,16 +1,12 @@
 // app/admin/profile/page.js
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+'use client';
+
 import ChangePasswordForm from '@/components/admin/ChangePasswordForm';
-import { getCurrentAdmin } from '@/lib/auth';
+import Link from 'next/link';  // tambahin ini kalau belum ada
 
-export default async function AdminProfile() {
-  const admin = await getCurrentAdmin();
-
-  // Kalau belum login atau token invalid → redirect ke login admin
-  if (!admin) {
-    redirect('/admin/login');
-  }
+export default function AdminProfile() {
+  // Nanti ganti dengan data dari auth/session (misal dari cookies atau context)
+  const username = "admin_saat_ini"; // ← placeholder, nanti ambil dari getCurrentAdmin() atau similar
 
   return (
     <div className="container">
@@ -41,7 +37,6 @@ export default async function AdminProfile() {
           <h2>Informasi Akun</h2>
           <p>Detail login dan status akun Anda saat ini.</p>
         </div>
-
         <div className="card-body">
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
             <div style={{
@@ -56,14 +51,14 @@ export default async function AdminProfile() {
               fontSize: '1.5rem',
               fontWeight: 'bold'
             }}>
-              {admin.username.charAt(0).toUpperCase()}
+              {username.charAt(0).toUpperCase()}
             </div>
             <div>
               <p style={{ fontSize: '1.1rem', margin: '0' }}>
-                <strong>Username:</strong> {admin.username}
+                <strong>Username:</strong> {username}
               </p>
               <p style={{ color: '#6b7280', marginTop: '4px', fontSize: '0.95rem' }}>
-                Terakhir login: {/* Nanti isi dari auth timestamp kalau ada, misal admin.lastLogin */}
+                Terakhir login: {/* Nanti isi dari auth timestamp kalau ada */}
               </p>
             </div>
           </div>
@@ -75,7 +70,7 @@ export default async function AdminProfile() {
             Untuk keamanan, gunakan password yang kuat dan berbeda dari sebelumnya.
           </p>
 
-          <ChangePasswordForm username={admin.username} />
+          <ChangePasswordForm username={username} />
         </div>
       </div>
     </div>

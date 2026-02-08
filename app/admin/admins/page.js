@@ -9,7 +9,7 @@ export default function ManageAdmins() {
     <div className="container">
       <h1 style={{ fontSize: '2.2rem', marginBottom: '10px' }}>Kelola Admin</h1>
       <p style={{ color: '#6b7280', marginBottom: '40px' }}>
-        Tambah atau kelola akun admin untuk akses dashboard sekolah.
+        Tambah atau kelola akun admin untuk akses dashboard.
       </p>
 
       {/* Tombol Kembali ke Dashboard */}
@@ -42,16 +42,9 @@ export default function ManageAdmins() {
       <h2 style={{ fontSize: '1.8rem', marginBottom: '20px' }}>Daftar Admin</h2>
       <div className="card">
         <div className="empty-state">
-          <div className="empty-icon" style={{ fontSize: '4rem', color: '#9ca3af' }}>
-            👥
-          </div>
-          <h3 style={{ margin: '16px 0 8px', color: '#111827' }}>Belum ada admin tambahan</h3>
-          <p style={{ color: '#6b7280', margin: '0' }}>
-            Admin pertama adalah yang Anda gunakan sekarang. Tambahkan admin baru di atas untuk tim.
-          </p>
-          <p style={{ color: '#9ca3af', fontSize: '0.9rem', marginTop: '16px', fontStyle: 'italic' }}>
-            (Daftar admin akan muncul otomatis setelah integrasi dengan database selesai)
-          </p>
+          <div className="empty-icon">👥</div>
+          <h3>Belum ada admin tambahan</h3>
+          <p>Tambahkan admin baru di atas untuk mendukung tim pengelola sekolah.</p>
         </div>
       </div>
     </div>
