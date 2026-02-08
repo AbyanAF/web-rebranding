@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  salt      String
+  createdAt DateTime @default(now())
+}
+
+enum Karakter {
+  RELIGIUS
+  DISIPLIN
+  INTEGRITAS
+  GOTONG_ROYONG
+  MANDIRI
+  KREATIF
+  NASIONALISME
+  PEDULI_LINGKUNGAN
+}
+
+model Berita {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  content   String
+  image     String?
+  karakter  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
