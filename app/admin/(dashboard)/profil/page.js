@@ -2,13 +2,45 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function AdminProfilePage() {
-  // dummy data dulu (nanti ambil dari auth/session)
-  const admin = {
-    username: "Admin Sekolah",
-    avatar: "/avatar-admin.png", // pastikan file ada di /public/avatar-admin.png
-  };
+  const [adminData, setAdminData] = useState({
+    username: "Memuat...",
+    fullName: "",
+    avatar: "/avatar-admin.png", // default, nanti bisa dari DB
+  });
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const res = await fetch('/api/admin/profile');
+        if (res.ok) {
+          const data = await res.json();
+          setAdminData({
+            username: data.username || "Admin Sekolah",
+            fullName: data.fullName || "", // kalau kosong → ga tampil apa-apa
+            avatar: data.profilePicture || "/avatar-admin.png",
+          });
+        } else {
+          setAdminData({
+            username: "Gagal memuat",
+            fullName: "",
+            avatar: "/avatar-admin.png",
+          });
+        }
+      } catch (err) {
+        console.error("Gagal fetch profile:", err);
+        setAdminData({
+          username: "Error",
+          fullName: "",
+          avatar: "/avatar-admin.png",
+        });
+      }
+    };
+    fetchAdmin();
+  }, []);
 
   return (
     <div className="container" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
@@ -32,7 +64,7 @@ export default function AdminProfilePage() {
             border: '4px solid #2563eb'
           }}>
             <Image
-              src={admin.avatar}
+              src={adminData.avatar}
               alt="Admin Avatar"
               width={120}
               height={120}
@@ -46,7 +78,7 @@ export default function AdminProfilePage() {
             margin: '0 0 4px',
             color: '#111827'
           }}>
-            {admin.username}
+            {adminData.username}
           </h2>
 
           <p className="role" style={{
@@ -54,12 +86,12 @@ export default function AdminProfilePage() {
             fontSize: '1rem',
             margin: '0 0 32px'
           }}>
-            Administrator Sekolah Berkarakter
+            {adminData.fullName || "Administrator"} {/* kalau kosong → tampil "Administrator" */}
           </p>
 
-          {/* Link Actions - Diperindah jadi card-like buttons */}
+          {/* Link Actions */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <a
+            <Link
               href="/admin/profile"
               className="action-link"
               style={{
@@ -84,9 +116,9 @@ export default function AdminProfilePage() {
               }}
             >
               Ubah Password Saya
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/admin/admins"
               className="action-link"
               style={{
@@ -111,7 +143,34 @@ export default function AdminProfilePage() {
               }}
             >
               Kelola Admin Lain (Tambah/Hapus)
-            </a>
+            </Link>
+
+            <Link
+              href="/admin/edit-profile"
+              className="action-link"
+              style={{
+                display: 'block',
+                padding: '16px 24px',
+                background: '#fefce8',
+                color: '#854d0e',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '500',
+                fontSize: '1.1rem',
+                transition: 'all 0.2s',
+                border: '1px solid #fef08a'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = '#fef08a';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(234,179,8,0.15)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = '#fefce8';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              Edit Profile Saya
+            </Link>
           </div>
         </div>
       </div>

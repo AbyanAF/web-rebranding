@@ -3,7 +3,7 @@ export default function AdminDashboard() {
     <section className="admin-dashboard">
       {/* HEADER */}
       <header className="admin-header">
-        <h1>Dashboard Admin</h1>
+        <h1>Panduan</h1>
         <p>
           Selamat datang di panel admin <strong>Sekolah Berkarakter</strong>.
           Gunakan halaman ini sebagai panduan sebelum menulis berita.

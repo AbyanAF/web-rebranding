@@ -1,10 +1,24 @@
 // app/admin/admins/page.js
-'use client';
+// TIDAK ADA 'use client'; di sini → server component
 
 import Link from 'next/link';
 import AddAdminForm from '@/components/admin/AddAdminForm';
+import AdminTable from '@/components/admin/AdminTable'; // ← import dari file baru (atau sesuaikan path kalau lu taruh di components)
+import { prisma } from '@/lib/prisma';
 
-export default function ManageAdmins() {
+export default async function ManageAdmins() {
+  const admins = await prisma.admin.findMany({
+    select: {
+      id: true,
+      username: true,
+      fullName: true,
+      email: true,
+      address: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
   return (
     <div className="container">
       <h1 style={{ fontSize: '2.2rem', marginBottom: '10px' }}>Kelola Admin</h1>
@@ -12,7 +26,6 @@ export default function ManageAdmins() {
         Tambah atau kelola akun admin untuk akses dashboard.
       </p>
 
-      {/* Tombol Kembali ke Dashboard */}
       <div style={{ marginBottom: '24px' }}>
         <Link
           href="/admin"
@@ -29,7 +42,7 @@ export default function ManageAdmins() {
         </Link>
       </div>
 
-      <div className="card">
+      <div className="card" style={{ marginBottom: '40px' }}>
         <div className="card-header">
           <h2>Tambah Admin Baru</h2>
           <p>Buat akun admin dengan username dan password yang kuat (minimal 8 karakter).</p>
@@ -40,13 +53,20 @@ export default function ManageAdmins() {
       </div>
 
       <h2 style={{ fontSize: '1.8rem', marginBottom: '20px' }}>Daftar Admin</h2>
-      <div className="card">
-        <div className="empty-state">
-          <div className="empty-icon">👥</div>
-          <h3>Belum ada admin tambahan</h3>
-          <p>Tambahkan admin baru di atas untuk mendukung tim pengelola sekolah.</p>
+
+      {admins.length === 0 ? (
+        <div className="card">
+          <div className="empty-state">
+            <div className="empty-icon" style={{ fontSize: '4rem', color: '#9ca3af' }}>👥</div>
+            <h3 style={{ margin: '16px 0 8px' }}>Belum ada admin tambahan</h3>
+            <p style={{ color: '#6b7280' }}>
+              Tambahkan admin baru di atas untuk mendukung tim pengelola sekolah.
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <AdminTable admins={admins} />
+      )}
     </div>
   );
 }
