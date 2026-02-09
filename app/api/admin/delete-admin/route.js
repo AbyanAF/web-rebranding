@@ -1,7 +1,7 @@
 // app/api/admin/delete-admin/route.js
 const { NextResponse } = require('next/server');
 const { prisma } = require('@/lib/prisma');
-const { getCurrentUsername } = require('@/lib/auth'); // kalau lu udah punya, atau skip dulu kalau belum
+
 
 async function POST(request) {
   try {
