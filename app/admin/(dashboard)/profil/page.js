@@ -92,7 +92,7 @@ export default function AdminProfilePage() {
           {/* Link Actions */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <Link
-              href="/admin/profile"
+              href="/admin/edit-password"
               className="action-link"
               style={{
                 display: 'block',
